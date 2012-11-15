@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<link href="~/css/jquery-ui-1.9.0.custom.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-1.8.2.js"></script>
+<script src="~/Scripts/jquery-ui-1.9.0.min.js"></script>
+<style>
+     .ui-autocomplete {
+        max-height: 100px;
+        overflow-y: auto;
+    }
+     .ui-autocomplete {
+        height: 100px;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: "http://localhost:49601/api/Employees",
+            datatype: "application/json; charset=utf-8",
+            success: function (data) {
+                //alert("done");
+                var Names = [];
+                Names = getDataInArray(data);
+
+                $("#txtempname").autocomplete({
+                    source: Names,
+                });
+            }
+        });
+        //Method to Convert JSON Response into an Array
+        function getDataInArray(array) {
+            var names = [];
+            $.each(array, function (i, d) {
+                names.push(d.EmpName);
+            });
+            //alert("ArrAy " + names);
+            return names;
+        }
+    });
+
+    
+</script>
+<span>Enter The Employee Name Here:</span>
+<input type="text" id="txtempname" />
